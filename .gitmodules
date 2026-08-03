@@ -1,0 +1,9 @@
+[submodule "03_linkerhand_vendor/linkerhand-ros-sdk"]
+	path = 03_linkerhand_vendor/linkerhand-ros-sdk
+	url = https://github.com/linker-bot/linkerhand-ros-sdk.git
+[submodule "03_linkerhand_vendor/linkerhand-python-sdk"]
+	path = 03_linkerhand_vendor/linkerhand-python-sdk
+	url = https://github.com/linker-bot/linkerhand-python-sdk.git
+[submodule "03_linkerhand_vendor/linkerhand-ros2-sdk"]
+	path = 03_linkerhand_vendor/linkerhand-ros2-sdk
+	url = https://github.com/linker-bot/linkerhand-ros2-sdk.git

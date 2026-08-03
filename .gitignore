@@ -1,0 +1,17 @@
+_temp/
+10_logs/
+build/
+devel/
+install/
+log/
+*.bag
+*.pyc
+__pycache__/
+.vscode/
+.idea/
+*.iso
+*.vmdk
+*.vmem
+*.vmss
+*.nvram
+02_robot_vendor/extracted/
