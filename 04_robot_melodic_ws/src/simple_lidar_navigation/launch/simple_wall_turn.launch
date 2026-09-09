@@ -2,18 +2,18 @@
   <!--
     This node starts disabled. It publishes zero Twist messages until enabled
     is explicitly set to true. Do not enable physical motion until the robot
-    model, lidar orientation, cmd_vel interface, and odometry convention have
-    been verified in the Melodic environment.
+    model, lidar orientation, cmd_vel interface, odometry convention, and
+    washing-machine detection topic have been verified in Melodic.
   -->
   <arg name="enabled" default="false"/>
   <arg name="scan_topic" default="/scan"/>
   <arg name="odom_topic" default="/odom"/>
   <arg name="cmd_vel_topic" default="/cmd_vel"/>
-  <arg name="turn_direction" default="1"/>
+  <arg name="washing_machine_detected_topic" default="/washing_machine_detected"/>
 
   <node pkg="simple_lidar_navigation"
-        type="wall_turn_controller.py"
-        name="wall_turn_controller"
+        type="machine_state_controller.py"
+        name="machine_state_controller"
         output="screen">
     <rosparam command="load"
               file="$(find simple_lidar_navigation)/config/wall_turn.yaml"/>
@@ -21,6 +21,7 @@
     <param name="scan_topic" value="$(arg scan_topic)"/>
     <param name="odom_topic" value="$(arg odom_topic)"/>
     <param name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
-    <param name="turn_direction" value="$(arg turn_direction)"/>
+    <param name="washing_machine_detected_topic"
+           value="$(arg washing_machine_detected_topic)"/>
   </node>
 </launch>

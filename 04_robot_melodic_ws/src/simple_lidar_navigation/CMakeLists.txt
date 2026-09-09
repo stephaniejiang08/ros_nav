@@ -6,12 +6,14 @@ find_package(catkin REQUIRED COMPONENTS
   nav_msgs
   rospy
   sensor_msgs
+  std_msgs
   tf
 )
 
 catkin_package()
 
 catkin_install_python(PROGRAMS
+  scripts/machine_state_controller.py
   scripts/wall_turn_controller.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

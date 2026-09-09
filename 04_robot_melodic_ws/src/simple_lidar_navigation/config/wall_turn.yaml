@@ -3,18 +3,20 @@ enabled: false
 scan_topic: /scan
 odom_topic: /odom
 cmd_vel_topic: /cmd_vel
+washing_machine_detected_topic: /washing_machine_detected
 
 # Robot drives forward until a valid point appears in this front sector.
 front_half_angle: 0.35
 obstacle_distance: 0.45
+
+# A fresh std_msgs/Bool is required. true means the vision node sees a washer.
+machine_timeout: 0.5
 
 # Motion values must be calibrated in simulation or bag replay first.
 drive_speed: 0.12
 turn_speed: 0.35
 turn_angle: 1.57079632679
 turn_tolerance: 0.04
-turn_direction: 1
-stop_duration: 0.5
 
 # Missing sensor data stops the robot rather than using stale values.
 scan_timeout: 0.5

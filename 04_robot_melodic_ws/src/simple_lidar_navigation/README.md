@@ -3,10 +3,19 @@
 This ROS1 Melodic package replaces the vendor move_base, AMCL, DWA, TEB,
 waypoint, and TCP scheduling path with a small reactive controller.
 
-    fresh /scan plus fresh /odom
-              |
-              v
-    DRIVE -> obstacle -> STOP -> measured 90-degree TURN -> DRIVE
+    fresh /washing_machine_detected=true plus fresh /scan
+                           |
+                           v
+                    APPROACH_MACHINE
+                           |
+                  front obstacle in /scan
+                           |
+                           v
+                       TURN_RIGHT
+                           |
+                   measured right 90 degrees
+                           |
+                           +--------------> APPROACH_MACHINE
 
 It is not a general navigation stack. It has no global planner, static-map
 localization, costmap, waypoint list, network command interface, or autonomous
@@ -16,9 +25,15 @@ recovery behavior.
 
 - enabled defaults to false. While disabled, the node repeatedly publishes a
   zero Twist.
-- The controller stops on stale scan data or stale odometry.
-- Turning uses odometry yaw. It stays stopped instead of time-estimating a
-  90-degree turn when odometry is unavailable.
+- The active controller has exactly two motion states: APPROACH_MACHINE and
+  TURN_RIGHT. Disabled and fail-safe stopping are non-motion conditions.
+- APPROACH_MACHINE sends forward velocity only when a fresh std_msgs/Bool
+  message on /washing_machine_detected is true.
+- TURN_RIGHT has priority when the forward lidar sector contains an obstacle
+  within obstacle_distance. It turns using odometry yaw and stops if odometry
+  is unavailable.
+- The controller stops on stale scan data, stale machine detections, or stale
+  odometry during a turn.
 - Only one node may own /cmd_vel. Do not run this controller together with
   move_base, teleoperation, the vendor path tracker, or another velocity source
   unless a separately tested velocity multiplexer is in place.
@@ -33,7 +48,7 @@ robot model is confirmed. From that workspace:
     catkin_make
     source devel/setup.bash
 
-For offline inspection or simulation, start the controller with:
+For offline inspection or simulation, start the two-state controller with:
 
     roslaunch simple_lidar_navigation simple_wall_turn.launch
 
