@@ -1,0 +1,32 @@
+<launch>
+  <!--
+    This launch does not start a lidar driver, base driver, or robot state
+    publisher. A separately verified system must provide the configured scan
+    topic and the TF chain odom -> base_footprint -> lidar frame.
+  -->
+  <arg name="run_slam" default="true"/>
+  <arg name="open_rviz" default="true"/>
+  <arg name="scan_topic" default="/scan_filtered"/>
+  <arg name="map_frame" default="map"/>
+  <arg name="odom_frame" default="odom"/>
+  <arg name="base_frame" default="base_footprint"/>
+
+  <node if="$(arg run_slam)"
+        pkg="gmapping"
+        type="slam_gmapping"
+        name="simple_gmapping"
+        output="screen">
+    <rosparam command="load"
+              file="$(find simple_lidar_navigation)/config/gmapping.yaml"/>
+    <remap from="scan" to="$(arg scan_topic)"/>
+    <param name="map_frame" value="$(arg map_frame)"/>
+    <param name="odom_frame" value="$(arg odom_frame)"/>
+    <param name="base_frame" value="$(arg base_frame)"/>
+  </node>
+
+  <node if="$(arg open_rviz)"
+        pkg="rviz"
+        type="rviz"
+        name="mapping_rviz"
+        args="-d $(find simple_lidar_navigation)/rviz/mapping.rviz"/>
+</launch>
